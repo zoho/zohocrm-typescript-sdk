@@ -41,11 +41,11 @@ Since Zoho CRM APIs are authenticated with OAuth2 standards, you should register
 
 ## Environmental Setup
 
-NodeJS SDK is installable through **npm**. **npm** is a tool for dependency management in NodeJS. SDK expects the following from the client app.
+TypeScript SDK is installable through **npm**. **npm** is a tool for dependency management in TypeScript. SDK expects the following from the client app.
 
 - Client app must have Node(version 12 and above)
 
-- NodeJS SDK must be installed into client app through **npm**.
+- TypeScript SDK must be installed into client app through **npm**.
 
 ## Including the SDK in your project
 
@@ -59,14 +59,14 @@ You can include the SDK to your project using:
     npm install -g typescript
     ```
 
-- Install **NodeJS SDK**
+- Install **TypeScript SDK**
     - Navigate to the workspace of your client app.
     - Run the command below:
 
     ```sh
     npm install @zohocrm/typescript-sdk
     ```
-- The NodeJS SDK will be installed and a package named **@zohocrm/typescript-sdk** will be created in the local machine.
+- The TypeScript SDK will be installed and a package named **@zohocrm/typescript-sdk** will be created in the local machine.
 
 - Another method to install the SDK
     - Add dependencies to the package.json of the node server with the latest version (recommended)
