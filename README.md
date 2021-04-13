@@ -809,7 +809,6 @@ await Initializer.removeUserConfiguration(user, environment)
             let myLogger: Logger = Logger.getInstance(Levels.INFO, "/Users/user_name/Documents/ts_sdk_log.log");
             let dc: Environment = USDataCenter.PRODUCTION();
             let sdkConfig: SDKConfig = new SDKConfigBuilder().setAutoRefreshFields(false).setPickListValidation(true).build();
-            // let store: DBStore = new DBStore(undefined, undefined, undefined, "root@123");
             let store: FileStore = new FileStore("/Users/username/Documents/ts_sdk_tokens.txt");
             let oauth: OAuthToken = new OAuthToken("clientId", "clientSecret", "REFRESH/ GRANT Token", TokenType.REFRESH/TokenType.GRANT);
             let path: string = "/Users/user_name/Documents/ts-app";
