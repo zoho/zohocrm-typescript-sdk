@@ -339,7 +339,7 @@ class RecordOperations{
 		handlerInstance.setContentType("multipart/form-data");
 		handlerInstance.setRequest(request);
 		handlerInstance.setMandatoryChecker(true);
-		await Utility.getModules();
+		await Utility.verifyPhotoSupport(moduleAPIName);
 		let FileHandler = require.resolve("./file_handler");
 		return handlerInstance.apiCall<FileHandler>(FileHandler, "application/json");
 

@@ -272,7 +272,7 @@ class Utility{
         return relatedListArray;
     }
 
-    public static async getModules(): Promise<void> {
+    public static async verifyPhotoSupport(moduleAPIName: string): Promise<void> {
 
     }
 
