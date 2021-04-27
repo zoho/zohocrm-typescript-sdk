@@ -301,7 +301,7 @@ class Utility {
             return relatedListArray;
         });
     }
-    static getModules() {
+    static verifyPhotoSupport(moduleAPIName) {
         return __awaiter(this, void 0, void 0, function* () {
         });
     }
