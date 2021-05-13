@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DelinkRecordsParam = exports.GetRelatedRecordsHeader = exports.GetRelatedRecordsParam = exports.RelatedRecordsOperations = exports.MasterModel = exports.GetRelatedRecordHeader = void 0;
+exports.DelinkRecordsParam = exports.GetRelatedRecordsHeader = exports.GetRelatedRecordsParam = exports.UpdateRelatedRecordHeader = exports.DelinkRecordHeader = exports.RelatedRecordsOperations = exports.MasterModel = exports.GetRelatedRecordHeader = void 0;
 const header_1 = require("../../../../../../routes/header");
 const param_1 = require("../../../../../../routes/param");
 const common_api_handler_1 = require("../../../../../../routes/middlewares/common_api_handler");
@@ -137,10 +137,11 @@ class RelatedRecordsOperations {
      * The method to update related record
      * @param relatedRecordId A bigint representing the relatedRecordId
      * @param request An instance of BodyWrapper
+     * @param headerInstance An instance of HeaderMap
      * @returns An instance of APIResponse<ActionHandler>
      * @throws SDKException
      */
-    updateRelatedRecord(relatedRecordId, request) {
+    updateRelatedRecord(relatedRecordId, request, headerInstance) {
         return __awaiter(this, void 0, void 0, function* () {
             let handlerInstance = new common_api_handler_1.CommonAPIHandler();
             let apiPath = '';
@@ -157,6 +158,7 @@ class RelatedRecordsOperations {
             handlerInstance.setCategoryMethod(constants_1.Constants.REQUEST_CATEGORY_UPDATE);
             handlerInstance.setContentType("application/json");
             handlerInstance.setRequest(request);
+            handlerInstance.setHeader(headerInstance);
             yield utility_1.Utility.getRelatedLists(this.relatedListAPIName, this.moduleAPIName, handlerInstance);
             let ActionHandler = require.resolve("./action_handler");
             return handlerInstance.apiCall(ActionHandler, "application/json");
@@ -165,10 +167,11 @@ class RelatedRecordsOperations {
     /**
      * The method to delink record
      * @param relatedRecordId A bigint representing the relatedRecordId
+     * @param headerInstance An instance of HeaderMap
      * @returns An instance of APIResponse<ActionHandler>
      * @throws SDKException
      */
-    delinkRecord(relatedRecordId) {
+    delinkRecord(relatedRecordId, headerInstance) {
         return __awaiter(this, void 0, void 0, function* () {
             let handlerInstance = new common_api_handler_1.CommonAPIHandler();
             let apiPath = '';
@@ -183,6 +186,7 @@ class RelatedRecordsOperations {
             handlerInstance.setAPIPath(apiPath);
             handlerInstance.setHttpMethod(constants_1.Constants.REQUEST_METHOD_DELETE);
             handlerInstance.setCategoryMethod(constants_1.Constants.REQUEST_METHOD_DELETE);
+            handlerInstance.setHeader(headerInstance);
             let ActionHandler = require.resolve("./action_handler");
             return handlerInstance.apiCall(ActionHandler, "application/json");
         });
@@ -199,6 +203,7 @@ class GetRelatedRecordsHeader {
 }
 exports.GetRelatedRecordsHeader = GetRelatedRecordsHeader;
 GetRelatedRecordsHeader.IF_MODIFIED_SINCE = new header_1.Header("If-Modified-Since", "com.zoho.crm.api.RelatedRecords.GetRelatedRecordsHeader");
+GetRelatedRecordsHeader.X_EXTERNAL = new header_1.Header("X-EXTERNAL", "com.zoho.crm.api.RelatedRecords.GetRelatedRecordsHeader");
 class DelinkRecordsParam {
 }
 exports.DelinkRecordsParam = DelinkRecordsParam;
@@ -207,4 +212,12 @@ class GetRelatedRecordHeader {
 }
 exports.GetRelatedRecordHeader = GetRelatedRecordHeader;
 GetRelatedRecordHeader.IF_MODIFIED_SINCE = new header_1.Header("If-Modified-Since", "com.zoho.crm.api.RelatedRecords.GetRelatedRecordHeader");
+class UpdateRelatedRecordHeader {
+}
+exports.UpdateRelatedRecordHeader = UpdateRelatedRecordHeader;
+UpdateRelatedRecordHeader.X_EXTERNAL = new header_1.Header("X-EXTERNAL", "com.zoho.crm.api.RelatedRecords.UpdateRelatedRecordHeader");
+class DelinkRecordHeader {
+}
+exports.DelinkRecordHeader = DelinkRecordHeader;
+DelinkRecordHeader.X_EXTERNAL = new header_1.Header("X-EXTERNAL", "com.zoho.crm.api.RelatedRecords.DelinkRecordHeader");
 //# sourceMappingURL=related_records_operations.js.map

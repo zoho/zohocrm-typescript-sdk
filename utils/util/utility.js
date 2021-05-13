@@ -41,11 +41,17 @@ const Logger = __importStar(require("winston"));
  * This class handles module field details.
 */
 class Utility {
+    static getFields(moduleAPIName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.moduleAPIName = moduleAPIName;
+            yield this.getFieldsInfo(moduleAPIName);
+        });
+    }
     /**
      * This method to fetch field details of the current module for the current user and store the result in a JSON file.
      * @param {string} moduleAPIName - A String containing the CRM module API name.
     */
-    static getFields(moduleAPIName) {
+    static getFieldsInfo(moduleAPIName) {
         return __awaiter(this, void 0, void 0, function* () {
             let lastModifiedTime = null;
             var recordFieldDetailsPath = null;
@@ -174,7 +180,7 @@ class Utility {
                 }
                 fs.writeFileSync(recordFieldDetailsPath, JSON.stringify(recordFieldDetailsJson));
                 for (let module of modifiedModules) {
-                    yield Utility.getFields(module);
+                    yield Utility.getFieldsInfo(module);
                 }
             }
         });
@@ -247,7 +253,7 @@ class Utility {
                     }
                     if (relatedListObject[constants_1.Constants.MODULE].toLowerCase() != constants_1.Constants.NULL_VALUE) {
                         commonAPIHandler.setModuleAPIName(relatedListObject[constants_1.Constants.MODULE]);
-                        yield Utility.getFields(relatedListObject[constants_1.Constants.MODULE]);
+                        yield Utility.getFieldsInfo(relatedListObject[constants_1.Constants.MODULE]);
                     }
                     return true;
                 }
@@ -397,7 +403,11 @@ class Utility {
                         errorResponse[constants_1.Constants.CODE] = responseObject.getCode().getValue();
                         errorResponse[constants_1.Constants.STATUS] = responseObject.getStatus().getValue();
                         errorResponse[constants_1.Constants.MESSAGE] = responseObject.getMessage().getValue();
-                        throw new sdk_exception_1.SDKException(constants_1.Constants.API_EXCEPTION, null, errorResponse);
+                        let exception = new sdk_exception_1.SDKException(constants_1.Constants.API_EXCEPTION, null, errorResponse);
+                        if (this.moduleAPIName != null && this.moduleAPIName.toLowerCase() == moduleAPIName.toLowerCase()) {
+                            throw exception;
+                        }
+                        Logger.error(constants_1.Constants.API_EXCEPTION, exception);
                     }
                 }
                 else {
@@ -427,7 +437,7 @@ class Utility {
     static refreshModules() {
         return __awaiter(this, void 0, void 0, function* () {
             this.forceRefresh = true;
-            yield Utility.getFields(null);
+            yield Utility.getFieldsInfo(null);
             this.forceRefresh = false;
         });
     }
@@ -535,7 +545,7 @@ class Utility {
                 fieldDetail.lookup = true;
             }
             if (module.length > 0) {
-                yield Utility.getFields(module);
+                yield Utility.getFieldsInfo(module);
             }
             fieldDetail.name = keyName;
         });
@@ -646,4 +656,5 @@ Utility.apiTypeVsStructureName = new Map();
 Utility.newFile = false;
 Utility.getModifiedModules = false;
 Utility.forceRefresh = false;
+Utility.moduleAPIName = null;
 //# sourceMappingURL=utility.js.map

@@ -19,12 +19,19 @@ class Utility{
     private static newFile: boolean = false;
     private static getModifiedModules: boolean = false;
     private static forceRefresh: boolean = false;
+    private static moduleAPIName: string | null = null;
+
+    public static async getFields(moduleAPIName: string | null) {
+        this.moduleAPIName = moduleAPIName;
+
+        await this.getFieldsInfo(moduleAPIName);
+    }
 
     /**
      * This method to fetch field details of the current module for the current user and store the result in a JSON file.
      * @param {string} moduleAPIName - A String containing the CRM module API name.
     */
-    public static async getFields(moduleAPIName: string | null) {
+    public static async getFieldsInfo(moduleAPIName: string | null) {
         let lastModifiedTime: number | null = null;
         var recordFieldDetailsPath: string | null = null;
         try {
@@ -150,7 +157,7 @@ class Utility{
             }
             fs.writeFileSync(recordFieldDetailsPath, JSON.stringify(recordFieldDetailsJson));
             for(let module of modifiedModules) {
-                await Utility.getFields(module);
+                await Utility.getFieldsInfo(module);
             }
         }
     }
@@ -219,7 +226,7 @@ class Utility{
                 }
                 if(relatedListObject[Constants.MODULE].toLowerCase() != Constants.NULL_VALUE) {
                     commonAPIHandler.setModuleAPIName(relatedListObject[Constants.MODULE]);
-                    await Utility.getFields(relatedListObject[Constants.MODULE]);
+                    await Utility.getFieldsInfo(relatedListObject[Constants.MODULE]);
                 }
                 return true;
             }
@@ -368,7 +375,11 @@ class Utility{
                     errorResponse[Constants.CODE] = responseObject.getCode().getValue();
                     errorResponse[Constants.STATUS] = responseObject.getStatus().getValue();
                     errorResponse[Constants.MESSAGE] = responseObject.getMessage().getValue();
-                    throw new SDKException(Constants.API_EXCEPTION, null, errorResponse);
+                    let exception: SDKException = new SDKException(Constants.API_EXCEPTION, null, errorResponse);
+                    if(this.moduleAPIName != null && this.moduleAPIName.toLowerCase() == moduleAPIName.toLowerCase()) {
+                        throw exception;
+                    }
+                    Logger.error(Constants.API_EXCEPTION, exception);
                 }
             }
             else{
@@ -397,7 +408,7 @@ class Utility{
 
     public static async refreshModules() {
         this.forceRefresh = true;
-        await Utility.getFields(null);
+        await Utility.getFieldsInfo(null);
         this.forceRefresh = false;
     }
 
@@ -507,7 +518,7 @@ class Utility{
         }
 
         if(module.length > 0) {
-            await Utility.getFields(module);
+            await Utility.getFieldsInfo(module);
         }
 
         fieldDetail.name = keyName;
