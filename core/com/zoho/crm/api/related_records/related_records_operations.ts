@@ -139,10 +139,11 @@ class RelatedRecordsOperations{
 	 * The method to update related record
 	 * @param relatedRecordId A bigint representing the relatedRecordId
 	 * @param request An instance of BodyWrapper
+	 * @param headerInstance An instance of HeaderMap
 	 * @returns An instance of APIResponse<ActionHandler>
 	 * @throws SDKException
 	 */
-	public async updateRelatedRecord(relatedRecordId: bigint, request: BodyWrapper): Promise<APIResponse<ActionHandler>>	{
+	public async updateRelatedRecord(relatedRecordId: bigint, request: BodyWrapper, headerInstance?: HeaderMap): Promise<APIResponse<ActionHandler>>	{
 		let handlerInstance: CommonAPIHandler = new CommonAPIHandler();
 		let apiPath: string = '';
 		apiPath = apiPath.concat("/crm/v2/");
@@ -158,6 +159,7 @@ class RelatedRecordsOperations{
 		handlerInstance.setCategoryMethod(Constants.REQUEST_CATEGORY_UPDATE);
 		handlerInstance.setContentType("application/json");
 		handlerInstance.setRequest(request);
+		handlerInstance.setHeader(headerInstance);
 		await Utility.getRelatedLists(this.relatedListAPIName, this.moduleAPIName, handlerInstance);
 		let ActionHandler = require.resolve("./action_handler");
 		return handlerInstance.apiCall<ActionHandler>(ActionHandler, "application/json");
@@ -167,10 +169,11 @@ class RelatedRecordsOperations{
 	/**
 	 * The method to delink record
 	 * @param relatedRecordId A bigint representing the relatedRecordId
+	 * @param headerInstance An instance of HeaderMap
 	 * @returns An instance of APIResponse<ActionHandler>
 	 * @throws SDKException
 	 */
-	public async delinkRecord(relatedRecordId: bigint): Promise<APIResponse<ActionHandler>>	{
+	public async delinkRecord(relatedRecordId: bigint, headerInstance?: HeaderMap): Promise<APIResponse<ActionHandler>>	{
 		let handlerInstance: CommonAPIHandler = new CommonAPIHandler();
 		let apiPath: string = '';
 		apiPath = apiPath.concat("/crm/v2/");
@@ -184,6 +187,7 @@ class RelatedRecordsOperations{
 		handlerInstance.setAPIPath(apiPath);
 		handlerInstance.setHttpMethod(Constants.REQUEST_METHOD_DELETE);
 		handlerInstance.setCategoryMethod(Constants.REQUEST_METHOD_DELETE);
+		handlerInstance.setHeader(headerInstance);
 		let ActionHandler = require.resolve("./action_handler");
 		return handlerInstance.apiCall<ActionHandler>(ActionHandler, "application/json");
 
@@ -199,6 +203,7 @@ class GetRelatedRecordsParam{
 class GetRelatedRecordsHeader{
 
 	public static IF_MODIFIED_SINCE: Header<Date> = new Header<Date>("If-Modified-Since", "com.zoho.crm.api.RelatedRecords.GetRelatedRecordsHeader");
+	public static X_EXTERNAL: Header<string> = new Header<string>("X-EXTERNAL", "com.zoho.crm.api.RelatedRecords.GetRelatedRecordsHeader");
 }
 
 class DelinkRecordsParam{
@@ -211,10 +216,22 @@ class GetRelatedRecordHeader{
 	public static IF_MODIFIED_SINCE: Header<Date> = new Header<Date>("If-Modified-Since", "com.zoho.crm.api.RelatedRecords.GetRelatedRecordHeader");
 }
 
+class UpdateRelatedRecordHeader{
+
+	public static X_EXTERNAL: Header<string> = new Header<string>("X-EXTERNAL", "com.zoho.crm.api.RelatedRecords.UpdateRelatedRecordHeader");
+}
+
+class DelinkRecordHeader{
+
+	public static X_EXTERNAL: Header<string> = new Header<string>("X-EXTERNAL", "com.zoho.crm.api.RelatedRecords.DelinkRecordHeader");
+}
+
 export {
 	GetRelatedRecordHeader as GetRelatedRecordHeader,
 	RelatedRecordsOperations as MasterModel,
 	RelatedRecordsOperations as RelatedRecordsOperations,
+	DelinkRecordHeader as DelinkRecordHeader,
+	UpdateRelatedRecordHeader as UpdateRelatedRecordHeader,
 	GetRelatedRecordsParam as GetRelatedRecordsParam,
 	GetRelatedRecordsHeader as GetRelatedRecordsHeader,
 	DelinkRecordsParam as DelinkRecordsParam
