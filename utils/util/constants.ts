@@ -60,7 +60,7 @@ export class Constants {
 
     public static ZOHO_SDK = "X-ZOHO-SDK";
 
-    public static SDK_VERSION = "1.1.0";
+    public static SDK_VERSION = "1.1.1";
 
     public static MYSQL_HOST = "localhost";
 
@@ -288,7 +288,7 @@ export class Constants {
 
     public static RECORD_NAMESPACE = 'core/com/zoho/crm/api/record/record';
 
-    public static ATTACHMENTS_NAMESPACE = 'core/com/zoho/crm/api/attachment/attachment';
+    public static ATTACHMENTS_NAMESPACE = 'core/com/zoho/crm/api/attachments/attachment';
 
     public static FIELD_FILE_NAMESPACE = 'core/com/zoho/crm/api/record/file_details';
 

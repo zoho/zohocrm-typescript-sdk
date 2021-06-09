@@ -23,7 +23,7 @@ export class TokenType {
 export class OAuthToken implements Token {
     private clientID: string;
     private clientSecret: string;
-    private redirectURL?: string;
+    private redirectURL: string | undefined;
     private grantToken: string | null;
     private refreshToken: string | null;
     private accessToken: string | undefined;

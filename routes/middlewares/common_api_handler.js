@@ -226,7 +226,7 @@ class CommonAPIHandler {
                 Logger.error(constants_1.Constants.AUTHENTICATION_EXCEPTION, error);
                 throw error;
             }
-            let baseName = className.split("/");
+            let baseName = className.replace(/\\/gm, '/').split('/');
             let fileName = path.basename(className).split('.').slice(0, -1).join('.');
             let index = baseName.indexOf(constants_1.Constants.CORE);
             let packageNames = baseName.slice(index, baseName.length - 1);
